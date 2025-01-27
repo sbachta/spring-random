@@ -1,6 +1,7 @@
-#spring.application.name=spring-random
-#
+spring:
+  application:
+    name: spring-random
+
 #spring.cloud.stream.bindings.input.destination=temp-queue
 #spring.rabbitmq.host=localhost
 #spring.rabbitmq.port=5672
-
