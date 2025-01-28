@@ -1,7 +1,43 @@
 spring:
+  cloud:
+    function:
+      definition: memo;test;final
+    stream:
+      bindings:
+        memo-in-0:
+          content-type: application/json
+          destination: sample
+          group: memo
+        test-in-0:
+          content-type: application/json
+          destination: sample
+          group: test
+        final-in-0:
+          content-type: application/json
+          destination: sample
+          group: final
+        sample-out-0:
+          content-type: application/json
+          destination: sample
+        sample-delay-out-0:
+          content-type: application/json
+          destination: sample.delay
+          producer:
+            required-groups: memo
+      rabbit:
+        bindings:
+          sample-delay-out-0:
+            producer:
+              auto-bind-dlq: true
+              dead-letter-queue-name: sample.memo
+              ttl: ${rabbit.delay}
   application:
     name: spring-random
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
 
-#spring.cloud.stream.bindings.input.destination=temp-queue
-#spring.rabbitmq.host=localhost
-#spring.rabbitmq.port=5672
+rabbit:
+  delay: 5000
