@@ -1,6 +1,6 @@
 package com.example.springrandom.web;
 
-import com.example.springrandom.messaging.MessageSender;
+import com.example.springrandom.common.MessagePublisher;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +9,7 @@ import static org.mockito.Mockito.mock;
 
 class RandomControllerTest {
 
-    private final MessageSender sender = mock(MessageSender.class);
+    private final MessagePublisher sender = mock(MessagePublisher.class);
 
     private final RandomController subject = new RandomController(sender);
 

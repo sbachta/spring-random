@@ -1,17 +1,13 @@
 spring:
   cloud:
     function:
-      definition: memo;test;final
+      definition: memo;final
     stream:
       bindings:
         memo-in-0:
           content-type: application/json
           destination: sample
           group: memo
-        test-in-0:
-          content-type: application/json
-          destination: sample
-          group: test
         final-in-0:
           content-type: application/json
           destination: sample
@@ -23,13 +19,13 @@ spring:
           content-type: application/json
           destination: sample.delay
           producer:
-            required-groups: memo
+            required-groups: final
       rabbit:
         bindings:
           sample-delay-out-0:
             producer:
               auto-bind-dlq: true
-              dead-letter-queue-name: sample.memo
+              dead-letter-queue-name: sample.final
               ttl: ${rabbit.delay}
   application:
     name: spring-random

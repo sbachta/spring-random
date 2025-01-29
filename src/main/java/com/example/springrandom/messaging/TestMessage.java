@@ -1,4 +1,4 @@
-package com.example.springrandom.common;
+package com.example.springrandom.messaging;
 
 import lombok.*;
 
