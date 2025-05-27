@@ -4,10 +4,12 @@ import lombok.*;
 
 @Getter
 @Builder
+@ToString
 @EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class TestMessage {
     private String name;
-    private String location;
+    private String source;
+    private boolean throwError;
 }

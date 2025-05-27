@@ -1,39 +1,62 @@
 spring:
+  application:
+    name: spring-random
   cloud:
     function:
-      definition: memo;final
+      definition: memo;item;final;retry
     stream:
       bindings:
         memo-in-0:
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 5000
+            back-off-max-interval: 60000
+            back-off-multiplier: 2.0
           content-type: application/json
           destination: sample
           group: memo
+        item-in-0:
+          content-type: application/json
+          destination: sample
+          group: item
         final-in-0:
           content-type: application/json
           destination: sample
           group: final
+        retry-in-0:
+          content-type: application/json
+          destination: spring.random
+          group: retry
         sample-out-0:
           content-type: application/json
           destination: sample
-        sample-delay-out-0:
-          content-type: application/json
-          destination: sample.delay
-          producer:
-            required-groups: final
+#        sample-delay-out-0:
+#          content-type: application/json
+#          destination: sample.delay
+#          producer:
+#            required-groups: final
       rabbit:
         bindings:
-          sample-delay-out-0:
+          memo-in-0:
+            consumer:
+              auto-bind-dlq: true
+              dead-letter-queue-name: spring.random.retry
+              ttl: ${rabbit.delay}
             producer:
               auto-bind-dlq: true
-              dead-letter-queue-name: sample.final
+              dead-letter-queue-name: spring.random.retry
               ttl: ${rabbit.delay}
-  application:
-    name: spring-random
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: guest
-#    password: guest
+#          sample-delay-out-0:
+#            producer:
+#              auto-bind-dlq: true
+#              dead-letter-queue-name: spring.random.retry
+#              ttl: ${rabbit.delay}
+
 
 rabbit:
-  delay: 5000
+  delay: 10000
+
+logging:
+  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} - %clr{${sys:PID}}{magenta} - %msg%n{faint}" %clr([%thread]) %-20logger{20}
+    console: "%d{HH:mm:ss HH:mm:ss.SSS} %clr([%-5thread{5}]){yellow} %clr([%-4level]){blue} %clr([%-10logger{10}]){green} - %msg%n"

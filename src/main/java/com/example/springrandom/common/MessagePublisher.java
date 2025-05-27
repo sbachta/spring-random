@@ -1,6 +1,7 @@
 package com.example.springrandom.common;
 
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +14,7 @@ public class MessagePublisher<MESSAGE> implements Publisher<MESSAGE> {
     }
 
     @Override
-    public void publish(String exchange, MESSAGE message) {
+    public void publish(String exchange, Message<MESSAGE> message) {
         streamBridge.send(exchange, message);
     }
 }
