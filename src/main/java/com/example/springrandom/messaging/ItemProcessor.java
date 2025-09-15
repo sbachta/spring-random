@@ -33,14 +33,12 @@ public class ItemProcessor implements Processor<TestMessage> {
             if (routeTo.equals("start")){
                 log.info("Item message received `{}` at `{}`", message.getPayload(), LocalDateTime.now());
 
-                sender.publish(
-                        SAMPLE_OUTPUT,
-                        MessageBuilder.withPayload(TestMessage.builder()
-                                                              .name(message.getPayload().getName())
-                                                              .source("item")
-                                                              .build())
-                                      .setHeader("routeTo", "final")
-                                      .build());
+                sender.publish(SAMPLE_OUTPUT, MessageBuilder.withPayload(TestMessage.builder()
+                                                                                    .name(message.getPayload().getName())
+                                                                                    .source("item")
+                                                                                    .build())
+                                                            .setHeader("routeTo", "final")
+                                                            .build());
 
                 log.info("Item published at `{}`", LocalDateTime.now());
             }

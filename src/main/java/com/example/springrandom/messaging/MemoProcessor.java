@@ -38,14 +38,12 @@ public class MemoProcessor implements Processor<TestMessage> {
                     throw new RuntimeException();
                 }
                 else {
-                    sender.publish(
-                            SAMPLE_OUTPUT,
-                            MessageBuilder.withPayload(TestMessage.builder()
-                                                                  .name(message.getPayload().getName())
-                                                                  .source("memo")
-                                                                  .build())
-                                          .setHeader("routeTo", "final")
-                                          .build());
+                    sender.publish(SAMPLE_OUTPUT, MessageBuilder.withPayload(TestMessage.builder()
+                                                                                        .name(message.getPayload().getName())
+                                                                                        .source("memo")
+                                                                                        .build())
+                                                                .setHeader("routeTo", "final")
+                                                                .build());
 
                     log.info("Memo published at `{}`", LocalDateTime.now());
                 }
