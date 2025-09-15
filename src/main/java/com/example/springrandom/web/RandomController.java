@@ -65,7 +65,7 @@ public class RandomController {
     private List<TestMessage> constructMessages() {
         List<TestMessage> messages = new java.util.ArrayList<>(Collections.emptyList());
         int                     i        = 0;
-        int                     max      = faker.random().nextInt(0, 100);
+        int                     max      = faker.random().nextInt(0, 10);
 
         do {
             messages.add(TestMessage.builder()
